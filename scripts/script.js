@@ -1,9 +1,17 @@
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
 
+var gameActive = false;
 var player = new component(10, 20, "white", canvas.width/2 - 50, canvas.height-20, 0);
-var randomY = randRange(40, canvas.height-20);
+var randomY = randRange(100, canvas.height-player.height); // Random adscissa of the obstacle.
 var obstacle = new component(10, 20, "red", canvas.width, randomY, 1);
+
+var modal = document.getElementById("myModal");
+var mButton = document.getElementById("startGame");
+mButton.onclick = function() {
+    gameActive = true;
+    modal.style.display = "none";
+}
 
 // Player jumps by clicking this button.
 var jump = document.getElementById("jump");
@@ -42,39 +50,47 @@ var gameArea = {
  * @param {int - type of the component} type 
  */
 function component(width, height, color, x, y, type) {
-    this.moveup = false;
-    this.type = type;
-    this.x = x;
-    this.y = y;
-    this.dt = 0.4;
-    this.xSpeed = -3;
-    this.ySpeed = -7;
-    this.width = width;
-    this.height = height;
-    this.color = color;
-    this.gravity = .7;
+    this.init = function() {
+        this.moveup = false;
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.dt = 0.4;
+        this.xSpeed = -3;
+        this.ySpeed = -13;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.gravity = 3;
+    }
+
+    this.init();
+
     this.update = function() {
         switch (type) {     /** Case: 0 for the player and 1 for obstacle. */
             case 0:
                 if (this.moveup) {
                     this.y += this.ySpeed;
                     this.ySpeed += this.gravity*this.dt;
+
                     if (this.y >= canvas.height - this.height) {
                         this.moveup = false;
                         this.y = canvas.height-this.height;
-                        this.ySpeed = -7;
+                        this.ySpeed = -13;
                     }
                 }
                 break;
             case 1:
                 this.x += this.xSpeed;
+
                 if (this.x+this.width < 0) {
                     this.x = canvas.width;
-                    this.y = randRange(40, canvas.height);
+                    this.y = randRange(100, canvas.height - this.height);
                 }
                 break;
         }
     }
+
     this.draw = function() {
         fillRect(this.x, this.y, width, height, color);
     }
@@ -96,12 +112,42 @@ function fillRect(x, y, w, h, color) {
 /** Udates the game area. */
 function updateGameArea() {
     gameArea.clear();
-    player.draw();
-    player.update();
-    obstacle.draw();
-    obstacle.update();
+
+    if (gameActive) {
+
+        player.draw();
+        player.update();
+        obstacle.draw();
+        obstacle.update();
+
+        if (checkCollision(player, obstacle)) {
+            gameActive = false;
+
+            // Resets the components' position and velocity.
+            player.init();
+            obstacle.init(); 
+        }
+    } else {
+        modal.style.display = "block";
+    }
 }
 
+/**
+ * Checks collision between components 'pl' and 'ob' and returns true or false.
+ * @param {*} pl 
+ * @param {*} ob 
+ */
+function checkCollision(pl, ob) {
+    if (ob.x <= pl.x + pl.width && ob.x >= pl.x) {
+        if (ob.y >= pl.y && ob.y <= pl.y + pl.height) {
+            return true;
+        } else if (ob.y + ob.height >= pl.y && ob.y + ob.height <= pl.y + pl.height) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
 
 /** Starts the game. */
 function startGame() {

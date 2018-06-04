@@ -6,8 +6,8 @@
 
 #myCanvas {
     background-color: black;
+    height: 400px;
     width: 800px;
-    height: 400 px;
     display: block;
     margin: 0 auto;
     margin-top: 10%;
@@ -25,4 +25,30 @@
     cursor: pointer;
     background-color: black;
     color: white;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#startGame {
+    color: white;
+    background-color: black;
+    width: 33%;
+    height: 13%;
+    display: block;
+    margin: 19% auto;
+    font-size: 33px;
+}
+#startGame:hover {
+    cursor: pointer;
+    font-weight: bold;
 }
