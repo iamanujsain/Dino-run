@@ -2,8 +2,10 @@ var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
 
 var player = new component(10, 20, "white", canvas.width/2 - 50, canvas.height-20, 0);
-var randomY = randRange(40, canvas.height-20);
-var obstacle = new component(10, 20, "red", canvas.width, randomY, 1);
+
+//var randomY = randRange(40, canvas.height-20);
+var groundY = 130;
+var obstacle = new component(10, 20, "red", canvas.width, groundY, 1);
 
 // Player jumps by clicking this button.
 var jump = document.getElementById("jump");
@@ -13,7 +15,7 @@ jump.onclick = function() {
     }
 }
 
-// Generates a random number between a certai range.
+// Generates a random number between a certain range.
 function randRange(min, max) {
     return Math.random() * (max - min) + min;
 }
@@ -46,7 +48,7 @@ function component(width, height, color, x, y, type) {
     this.type = type;
     this.x = x;
     this.y = y;
-    this.dt = 0.4;
+    this.dt = 0.7;
     this.xSpeed = -3;
     this.ySpeed = -7;
     this.width = width;
@@ -69,8 +71,9 @@ function component(width, height, color, x, y, type) {
             case 1:
                 this.x += this.xSpeed;
                 if (this.x+this.width < 0) {
+                    width = randRange(10, 50);
                     this.x = canvas.width;
-                    this.y = randRange(40, canvas.height);
+                    this.y = 130; //randRange(130,140);
                 }
                 break;
         }
@@ -109,3 +112,4 @@ function startGame() {
 }
 
 startGame();
+
