@@ -1,21 +1,24 @@
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
-var jump = document.getElementById("jump");
 
 var player = new component(10, 20, "white", canvas.width/2 - 50, canvas.height-20, 0);
-var randomy = getRandomArbitrary(40, canvas.height-20);
-var obstacle = new component(10, 20, "red", canvas.width, randomy, 1);
+var randomY = randRange(40, canvas.height-20);
+var obstacle = new component(10, 20, "red", canvas.width, randomY, 1);
 
+// Player jumps by clicking this button.
+var jump = document.getElementById("jump");
 jump.onclick = function() {
     if (player.y >= canvas.height - player.height && !player.moveup) {
         player.moveup = true;
     }
 }
 
-function getRandomArbitrary(min, max) {
+// Generates a random number between a certai range.
+function randRange(min, max) {
     return Math.random() * (max - min) + min;
 }
 
+// (Object) gameArea - starts the game and updates the game area.
 var gameArea = {
     canvas: document.getElementById("myCanvas"),
     
@@ -29,6 +32,15 @@ var gameArea = {
     }
 }
 
+/**
+ * (Object) component - for creating new components.
+ * @param {int - width of the component} width 
+ * @param {int - height of the component} height 
+ * @param {string - color of the component} color 
+ * @param {int - abscissa or the component's position} y 
+ * @param {int - ordinate of the component's position} x 
+ * @param {int - type of the component} type 
+ */
 function component(width, height, color, x, y, type) {
     this.moveup = false;
     this.type = type;
@@ -58,7 +70,7 @@ function component(width, height, color, x, y, type) {
                 this.x += this.xSpeed;
                 if (this.x+this.width < 0) {
                     this.x = canvas.width;
-                    this.y = getRandomArbitrary(40, canvas.height);
+                    this.y = randRange(40, canvas.height);
                 }
                 break;
         }
@@ -68,11 +80,20 @@ function component(width, height, color, x, y, type) {
     }
 }
 
+/**
+ * Draws a rectangle on the canvas.
+ * @param {int - abscissa of the rectangle.} x 
+ * @param {int - ordinate of the rectangle.} y 
+ * @param {int - width of the rectangle.} w 
+ * @param {int - height of the rectangle.} h 
+ * @param {string - color of the rectangle.} color 
+ */
 function fillRect(x, y, w, h, color) {
     context.fillStyle = color;
     context.fillRect(x, y, w, h);
 }
 
+/** Udates the game area. */
 function updateGameArea() {
     gameArea.clear();
     player.draw();
@@ -82,7 +103,7 @@ function updateGameArea() {
 }
 
 
-
+/** Starts the game. */
 function startGame() {
     gameArea.start();
 }
