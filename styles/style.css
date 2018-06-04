@@ -1,0 +1,28 @@
+* {
+    padding: 0;
+    margin: 0;
+    background-color: #3b5998;
+}
+
+#myCanvas {
+    background-color: black;
+    width: 800px;
+    height: 400 px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+#jump {
+    padding: 3% 20%;
+    display: block;
+    margin: 3% auto;
+    color: black;
+    background-color: pink;
+    font-weight: bold;
+}
+#jump:hover {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}
