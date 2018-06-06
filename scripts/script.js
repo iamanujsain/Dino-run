@@ -85,7 +85,7 @@ function component(width, height, color, x, y, type) {
             case 1:
                 this.x += this.xSpeed;
 
-                if (this.x + this.width < 0) {
+                if (this.x + width < 0) {
                     width = randRange(10, 50);
                     this.x = canvas.width;
                     // this.y = 130; //randRange(130,140);
@@ -141,14 +141,12 @@ function updateGameArea() {
  * @param {*} ob 
  */
 function checkCollision(pl, ob) {
-    if (ob.x <= pl.x + pl.width && ob.x >= pl.x) {
-        if (ob.y >= pl.y && ob.y <= pl.y + pl.height) {
-            return true;
-        } else if (ob.y + ob.height >= pl.y && ob.y + ob.height <= pl.y + pl.height) {
+    if (pl.x + pl.width >= ob.x && pl.x <= ob.x + ob.width) {
+        if (pl.y + pl.width >= ob.y) {
             return true;
         }
-        return false;
     }
+    return false;
 }
 
 /** Starts the game. */
