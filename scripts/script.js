@@ -86,7 +86,7 @@ function component(width, height, color, x, y, type) {
                 this.x += this.xSpeed;
 
                 if (this.x + width < 0) {
-                    width = randRange(10, 50);
+                    width = randRange(10, 40); // ei range take(10,40) korlam, 50 besi wide hy jache, too hard to jump
                     this.x = canvas.width;
                     // this.y = 130; //randRange(130,140);
                 }
@@ -142,7 +142,7 @@ function updateGameArea() {
  */
 function checkCollision(pl, ob) {
     if (pl.x + pl.width >= ob.x && pl.x <= ob.x + ob.width) {
-        if (pl.y + pl.width >= ob.y) {
+        if (pl.y + pl.height >= ob.y) {
             return true;
         }
     }
@@ -155,4 +155,3 @@ function startGame() {
 }
 
 startGame();
-
